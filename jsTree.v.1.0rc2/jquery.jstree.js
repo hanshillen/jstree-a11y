@@ -1,22 +1,18 @@
 /*
- * jsTree 1.0-rc1
- * http://jstree.com/
- *
+ * jsTree 1.0-rc1 http://jstree.com/
+ * 
  * Copyright (c) 2010 Ivan Bozhanov (vakata.com)
- *
- * Dual licensed under the MIT and GPL licenses (same as jQuery):
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
- *
- * $Date: 2010-07-01 10:51:11 +0300 (четв, 01 юли 2010) $
- * $Revision: 191 $
+ * 
+ * Dual licensed under the MIT and GPL licenses (same as jQuery): http://www.opensource.org/licenses/mit-license.php http://www.gnu.org/licenses/gpl.html
+ * 
+ * $Date: 2010-07-01 10:51:11 +0300 (четв, 01 юли 2010) $ $Revision: 191 $
  */
 
-/*jslint browser: true, onevar: true, undef: true, bitwise: true, strict: true */
-/*global window : false, clearInterval: false, clearTimeout: false, document: false, setInterval: false, setTimeout: false, jQuery: false, navigator: false, XSLTProcessor: false, DOMParser: false, XMLSerializer: false*/
+/* jslint browser: true, onevar: true, undef: true, bitwise: true, strict: true */
+/* global window : false, clearInterval: false, clearTimeout: false, document: false, setInterval: false, setTimeout: false, jQuery: false, navigator: false, XSLTProcessor: false, DOMParser: false, XMLSerializer: false */
 
 "use strict";
-// Common functions not related to jsTree 
+// Common functions not related to jsTree
 // decided to move them to a `vakata` "namespace"
 (function ($) {
 	$.vakata = {};
@@ -81,11 +77,11 @@
 	};
 })(jQuery);
 
-/* 
+/*
  * jsTree core 1.0
  */
 (function ($) {
-	// private variables 
+	// private variables
 	var instances = [],			// instance array (used by $.jstree.reference/create/focused)
 		focused_instance = -1,	// the index in the instance array of the currently focused instance
 		plugins = {},			// list of included plugins
@@ -200,7 +196,7 @@
 					} while(func);
 					if(!func) { return; }
 
-					// a chance to stop execution (or change arguments): 
+					// a chance to stop execution (or change arguments):
 					// * just bind to jstree.before
 					// * check the additional data object (func property)
 					// * call event.stopImmediatePropagation()
@@ -816,11 +812,10 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
-/* 
- * jsTree ui plugin 1.0
- * This plugins handles selecting/deselecting/hovering/dehovering nodes
+/*
+ * jsTree ui plugin 1.0 This plugins handles selecting/deselecting/hovering/dehovering nodes
  */
 (function ($) {
 	$.jstree.plugin("ui", {
@@ -913,7 +908,7 @@
 			hover_node : function (obj) {
 				obj = this._get_node(obj);
 				if(!obj.length) { return false; }
-				//if(this.data.ui.hovered && obj.get(0) === this.data.ui.hovered.get(0)) { return; }
+				// if(this.data.ui.hovered && obj.get(0) === this.data.ui.hovered.get(0)) { return; }
 				if(!obj.hasClass("jstree-hovered")) { this.dehover_node(); }
 				this.data.ui.hovered = obj.children("a").addClass("jstree-hovered").parent();
 				this.__callback({ "obj" : obj });
@@ -998,11 +993,10 @@
 	// include the selection plugin by default
 	$.jstree.defaults.plugins.push("ui");
 })(jQuery);
-//*/
+// */
 
-/* 
- * jsTree CRRM plugin 1.0
- * Handles creating/renaming/removing/moving nodes by user interaction.
+/*
+ * jsTree CRRM plugin 1.0 Handles creating/renaming/removing/moving nodes by user interaction.
  */
 (function ($) {
 	$.jstree.plugin("crrm", { 
@@ -1165,9 +1159,8 @@
 	$.jstree.defaults.plugins.push("crrm");
 })(jQuery);
 
-/* 
- * jsTree themes plugin 1.0
- * Handles loading and setting themes, as well as detecting path to themes, etc.
+/*
+ * jsTree themes plugin 1.0 Handles loading and setting themes, as well as detecting path to themes, etc.
  */
 (function ($) {
 	var themes_loaded = [];
@@ -1180,7 +1173,7 @@
 						var s = this._get_settings().themes;
 						this.data.themes.dots = s.dots; 
 						this.data.themes.icons = s.icons; 
-						//alert(s.dots);
+						// alert(s.dots);
 						this.set_theme(s.theme, s.url);
 					}, this))
 				.bind("loaded.jstree", $.proxy(function () {
@@ -1242,12 +1235,10 @@
 	// include the themes plugin by default
 	$.jstree.defaults.plugins.push("themes");
 })(jQuery);
-//*/
+// */
 
 /*
- * jsTree hotkeys plugin 1.0
- * Enables keyboard navigation for all tree instances
- * Depends on the jstree ui & jquery hotkeys plugins
+ * jsTree hotkeys plugin 1.0 Enables keyboard navigation for all tree instances Depends on the jstree ui & jquery hotkeys plugins
  */
 (function ($) {
 	var bound = [];
@@ -1319,11 +1310,10 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
-/* 
- * jsTree JSON 1.0
- * The JSON data store. Datastores are build by overriding the `load_node` and `_is_loaded` functions.
+/*
+ * jsTree JSON 1.0 The JSON data store. Datastores are build by overriding the `load_node` and `_is_loaded` functions.
  */
 (function ($) {
 	$.jstree.plugin("json_data", {
@@ -1569,13 +1559,10 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
-/* 
- * jsTree languages plugin 1.0
- * Adds support for multiple language versions in one tree
- * This basically allows for many titles coexisting in one node, but only one of them being visible at any given time
- * This is useful for maintaining the same structure in many languages (hence the name of the plugin)
+/*
+ * jsTree languages plugin 1.0 Adds support for multiple language versions in one tree This basically allows for many titles coexisting in one node, but only one of them being visible at any given time This is useful for maintaining the same structure in many languages (hence the name of the plugin)
  */
 (function ($) {
 	$.jstree.plugin("languages", {
@@ -1681,12 +1668,10 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
 /*
- * jsTree cookies plugin 1.0
- * Stores the currently opened/selected nodes in a cookie and then restores them
- * Depends on the jquery.cookie plugin
+ * jsTree cookies plugin 1.0 Stores the currently opened/selected nodes in a cookie and then restores them Depends on the jquery.cookie plugin
  */
 (function ($) {
 	$.jstree.plugin("cookies", {
@@ -1754,11 +1739,10 @@
 	// include cookies by default
 	$.jstree.defaults.plugins.push("cookies");
 })(jQuery);
-//*/
+// */
 
 /*
- * jsTree sort plugin 1.0
- * Sorts items alphabetically (or using any other function)
+ * jsTree sort plugin 1.0 Sorts items alphabetically (or using any other function)
  */
 (function ($) {
 	$.jstree.plugin("sort", {
@@ -1789,11 +1773,10 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
 /*
- * jsTree DND plugin 1.0
- * Drag and drop plugin for moving/copying nodes
+ * jsTree DND plugin 1.0 Drag and drop plugin for moving/copying nodes
  */
 (function ($) {
 	var o = false,
@@ -2216,17 +2199,14 @@
 		});
 	});
 })(jQuery);
-//*/
+// */
 
 /*
- * jsTree checkbox plugin 1.0
- * Inserts checkboxes in front of every node
- * Depends on the ui plugin
- * DOES NOT WORK NICELY WITH MULTITREE DRAG'N'DROP
+ * jsTree checkbox plugin 1.0 Inserts checkboxes in front of every node Depends on the ui plugin DOES NOT WORK NICELY WITH MULTITREE DRAG'N'DROP
  */
 (function ($) {
 	$.jstree.plugin("checkbox", {
-		__init : function () {
+		__html : function () {
 			this.select_node = this.deselect_node = this.deselect_all = $.noop;
 			this.get_selected = this.get_checked;
 
@@ -2355,11 +2335,10 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
-/* 
- * jsTree XML 1.0
- * The XML data store. Datastores are build by overriding the `load_node` and `_is_loaded` functions.
+/*
+ * jsTree XML 1.0 The XML data store. Datastores are build by overriding the `load_node` and `_is_loaded` functions.
  */
 (function ($) {
 	$.vakata.xslt = function (xml, xsl, callback) {
@@ -2709,12 +2688,10 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
 /*
- * jsTree search plugin 1.0
- * Enables both sync and async search on the tree
- * DOES NOT WORK WITH JSON PROGRESSIVE RENDER
+ * jsTree search plugin 1.0 Enables both sync and async search on the tree DOES NOT WORK WITH JSON PROGRESSIVE RENDER
  */
 (function ($) {
 	$.expr[':'].jstree_contains = function(a,i,m){
@@ -2793,7 +2770,7 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
 /*
  * jsTree contextmenu plugin 1.0
@@ -3057,13 +3034,10 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
-/* 
- * jsTree types plugin 1.0
- * Adds support types of nodes
- * You can set an attribute on each li node, that represents its type.
- * According to the type setting the node may get custom icon/validation rules
+/*
+ * jsTree types plugin 1.0 Adds support types of nodes You can set an attribute on each li node, that represents its type. According to the type setting the node may get custom icon/validation rules
  */
 (function ($) {
 	$.jstree.plugin("types", {
@@ -3128,11 +3102,11 @@
 					"valid_children": "all"
 
 					// Bound functions - you can bind any other function here (using boolean or function)
-					//"select_node"	: true,
-					//"open_node"	: true,
-					//"close_node"	: true,
-					//"create_node"	: true,
-					//"delete_node"	: true
+					// "select_node" : true,
+					// "open_node" : true,
+					// "close_node" : true,
+					// "create_node" : true,
+					// "delete_node" : true
 				}
 			}
 		},
@@ -3239,11 +3213,10 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
 
-/* 
- * jsTree HTML data 1.0
- * The HTML data store. Datastores are build by replacing the `load_node` and `_is_loaded` functions.
+/*
+ * jsTree HTML data 1.0 The HTML data store. Datastores are build by replacing the `load_node` and `_is_loaded` functions.
  */
 (function ($) {
 	$.jstree.plugin("html_data", {
@@ -3265,6 +3238,7 @@
 				return obj == -1 || !obj || !this._get_settings().html_data.ajax || obj.is(".jstree-open, .jstree-leaf") || obj.children("ul").children("li").size() > 0;
 			},
 			load_node_html : function (obj, s_call, e_call) {
+			    
 				var d,
 					s = this.get_settings().html_data,
 					error_func = function () {},
@@ -3282,6 +3256,23 @@
 								.append(this.data.html_data.original_container_html)
 								.find("li, a").filter(function () { return this.firstChild.tagName !== "INS"; }).prepend("<ins class='jstree-icon'>&#160;</ins>").end()
 								.filter("a").children("ins:first-child").not(".jstree-icon").addClass("jstree-icon");
+						    
+						    this.get_container()
+                                .find("ul:eq(0)")
+                                .attr("role", "tree")
+                                .find("ul")
+                                    .attr("role", "group")
+                                .end()
+                                .find("li")
+                                    .attr("role", "presentation")
+                                .end()
+                                .find("li > a")
+                                    .attr("role", "treeitem")
+                                .end()
+                                .find("li > ins")
+                                    .attr("role", "presentation")
+                                    .attr("aria-hidden", "true");
+						     
 							this.clean_node();
 						}
 						if(s_call) { s_call.call(this); }
@@ -3359,11 +3350,10 @@
 	// include the HTML data plugin by default
 	$.jstree.defaults.plugins.push("html_data");
 })(jQuery);
-//*/
+// */
 
-/* 
- * jsTree themeroller plugin 1.0
- * Adds support for jQuery UI themes. Include this at the end of your plugins list, also make sure "themes" is not included.
+/*
+ * jsTree themeroller plugin 1.0 Adds support for jQuery UI themes. Include this at the end of your plugins list, also make sure "themes" is not included.
  */
 (function ($) {
 	$.jstree.plugin("themeroller", {
@@ -3434,12 +3424,10 @@
 		$.vakata.css.add_sheet({ str : css_string });
 	});
 })(jQuery);
-//*/
+// */
 
-/* 
- * jsTree unique plugin 1.0
- * Forces different names amongst siblings (still a bit experimental)
- * NOTE: does not check language versions (it will not be possible to have nodes with the same title, even in different languages)
+/*
+ * jsTree unique plugin 1.0 Forces different names amongst siblings (still a bit experimental) NOTE: does not check language versions (it will not be possible to have nodes with the same title, even in different languages)
  */
 (function ($) {
 	$.jstree.plugin("unique", {
@@ -3507,4 +3495,4 @@
 		}
 	});
 })(jQuery);
-//*/
+// */
