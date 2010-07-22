@@ -492,6 +492,8 @@
 			open_node	: function (obj, callback, skip_animation) {
 				obj = this._get_node(obj);
 				if(!obj.length) { return false; }
+				$(obj).children('a').eq(0)
+                .attr("aria-expanded", "true");
 				if(!obj.hasClass("jstree-closed")) { if(callback) { callback.call(); } return false; }
 				var s = skip_animation || is_ie6 ? 0 : this._get_settings().core.animation,
 					t = this;
@@ -509,6 +511,9 @@
 			},
 			close_node	: function (obj, skip_animation) {
 				obj = this._get_node(obj);
+				$(obj).children('a').eq(0)
+                .attr("aria-expanded", "false");
+                
 				var s = skip_animation || is_ie6 ? 0 : this._get_settings().core.animation;
 				if(!obj.length || !obj.hasClass("jstree-open")) { return false; }
 				if(s) { obj.children("ul").attr("style","display:block !important"); }
@@ -921,6 +926,11 @@
 				this.__callback({ "obj" : obj });
 			},
 			select_node : function (obj, check, e) {
+			    $(obj).children('a').eq(0)
+			        .attr("tabindex", "0")
+			        .attr("aria-selected", "true")
+			        .focus();
+			    
 				obj = this._get_node(obj);
 				if(obj == -1 || !obj || !obj.length) { return false; }
 				var s = this._get_settings().ui,
@@ -965,6 +975,10 @@
 				obj = this._get_node(obj);
 				if(!obj.length) { return false; }
 				if(this.is_selected(obj)) {
+				    $(obj).children('a').eq(0)
+                        .attr("tabindex", "-1")
+                        .attr("aria-selected", "false")
+                        .focus();
 					obj.children("a").removeClass("jstree-clicked");
 					this.data.ui.selected = this.data.ui.selected.not(obj);
 					if(this.data.ui.last_selected.get(0) === obj.get(0)) { this.data.ui.last_selected = this.data.ui.selected.eq(0); }
@@ -1253,6 +1267,8 @@
 		__init : function () {
 			if(typeof $.hotkeys === "undefined") { throw "jsTree hotkeys: jQuery hotkeys plugin not included."; }
 			if(!this.data.ui) { throw "jsTree hotkeys: jsTree UI plugin not included."; }
+			
+			$(this.data.html_data.original_container_html).find("a").eq(0).attr("tabindex", "0");
 			$.each(this._get_settings().hotkeys, function (i, val) {
 				if($.inArray(i, bound) == -1) {
 					$(document).bind("keydown", i, function (event) { return exec(i, event); });
@@ -1264,19 +1280,24 @@
 		defaults : {
 			"up" : function () { 
 				var o = this.data.ui.hovered || this.data.ui.last_selected || -1;
-				this.hover_node(this._get_prev(o));
+		        this.deselect_node(o);
+		        this.select_node(this._get_prev(o));
 				return false; 
 			},
 			"down" : function () { 
 				var o = this.data.ui.hovered || this.data.ui.last_selected || -1;
-				this.hover_node(this._get_next(o));
+				this.deselect_node(o);
+				this.select_node(this._get_next(o));
 				return false;
 			},
 			"left" : function () { 
 				var o = this.data.ui.hovered || this.data.ui.last_selected;
 				if(o) {
 					if(o.hasClass("jstree-open")) { this.close_node(o); }
-					else { this.hover_node(this._get_prev(o)); }
+					else {
+					    this.deselect_node(o);
+					    this.select_node(this._get_prev(o)); 
+					}
 				}
 				return false;
 			},
@@ -1284,7 +1305,10 @@
 				var o = this.data.ui.hovered || this.data.ui.last_selected;
 				if(o && o.length) {
 					if(o.hasClass("jstree-closed")) { this.open_node(o); }
-					else { this.hover_node(this._get_next(o)); }
+					else { 
+					    this.deselect_node(o);
+					    this.select_node(this._get_next(o)); 
+					}
 				}
 				return false;
 			},

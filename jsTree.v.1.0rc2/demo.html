@@ -12,13 +12,16 @@
         $('#sampleTree1').jstree();
         $('#sampleTree2').jstree({plugins : ["themes", "html_data", "ui", "hotkeys"]});
         
-        
+        $(".jstree-closed > a")
+            .attr("aria-expanded", "false");
+        $(".jstree-open > a")
+            .attr("aria-expanded", "true");
     });
     </script>
     </head>
     <body>
         <h1>JsTree Demo with Acessibility Modifications</h1>
-       
+        <a href="#">Placeholder Link 1</a>
     <div id="sampleTree2">
         <ul>
             <li> <a href="#">Invoices</a>
@@ -98,6 +101,7 @@
         </ul>
     </div>
     </div>
+    <a href="#">Placeholder Link 2</a>
 <!-- End demo -->
 
 <div class="demo-description"> </div>
